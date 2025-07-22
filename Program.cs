@@ -13,7 +13,9 @@
             // create list for Appointment
             List<Appointment> appointments = new List<Appointment>();
 
+            bool MainMenu = true;
             // create menue 
+            while (MainMenu) {
             Console.WriteLine("Welcome to the Hospital System");
             Console.Write("Please select an option (1-3): ");
             Console.WriteLine("1. Add Patient");
@@ -25,52 +27,52 @@
             Console.WriteLine("0. Exit");
 
             int choice = Convert.ToInt32(Console.ReadLine());
-            switch (choice)
-            {
-                case 1:
-                    AddNewPatient();
-                    Console.ReadLine();
-                    break;
-                case 2:
-                    AddNewDoctor();
-                    Console.ReadLine();
-                    break;
-                case 3:
-                    BookAppointment(doctors, patients, appointments);
-                    Console.ReadLine();
-                    break;
-                case 4:
-                    Console.WriteLine("Enter the doctor ID:");
-                    int doctorId = Convert.ToInt32(Console.ReadLine());
-                    DisplayingAllAppointments(doctorId);
-                    Console.ReadLine();
-                    break;
-                case 5:
-                    // Print all specializations in the hospital 
-                    Console.WriteLine("Available Specializations:");
-                    Console.WriteLine("1. Cardiology");
-                    Console.WriteLine("2. Neurology");
-                    Console.WriteLine("3. Orthopedics");
-                    Console.WriteLine("4. Pediatrics");
-                    Console.WriteLine("5. Dermatology");
-                    Console.WriteLine("6. General Medicine");
-                    Console.WriteLine("7. Gynecology");
-                    Console.WriteLine("8. Psychiatry");
-                    Console.WriteLine("9. ENT (Ear, Nose, Throat)");
-                    string specialization = Console.ReadLine();
-                    ShowingAvailableDoctorsBySpecialization(specialization);
-                    break;
-                case 6:
-                    Console.WriteLine("Enter the patient name:");
-                    string patientNameOrDate = Console.ReadLine();
-                    DisplayingAllAppointmentsForPatient(patientNameOrDate);
-                    break;
+                switch (choice)
+                {
+                    case 1:
+                        AddNewPatient(patients);
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        AddNewDoctor(doctors);
+                        Console.ReadLine();
+                        break;
+                    case 3:
+                        BookAppointment(doctors, patients, appointments);
+                        Console.ReadLine();
+                        break;
+                    case 4:
+                        Console.WriteLine("Enter the doctor ID:");
+                        int doctorId = Convert.ToInt32(Console.ReadLine());
+                        DisplayingAllAppointments(doctorId);
+                        Console.ReadLine();
+                        break;
+                    case 5:
+                        // Print all specializations in the hospital 
+                        Console.WriteLine("Available Specializations:");
+                        Console.WriteLine("1. Cardiology");
+                        Console.WriteLine("2. Neurology");
+                        Console.WriteLine("3. Orthopedics");
+
+                        string specialization = Console.ReadLine();
+                        ShowingAvailableDoctorsBySpecialization(specialization);
+                        break;
+                    case 6:
+                        Console.WriteLine("Enter the patient name:");
+                        string patientNameOrDate = Console.ReadLine();
+                        DisplayingAllAppointmentsForPatient(patientNameOrDate);
+                        break;
+                    case 0:
+
+                        MainMenu = false;
+                        break;
+                }
 
             }
         }
 
         // Method to add new patient
-        static void AddNewPatient()
+        static void AddNewPatient(List<Patient> patients)
         {
             Patient newPatient = new Patient();
             Console.Write("Enter Patient ID: ");
@@ -83,22 +85,47 @@
             newPatient.PhoneNumber = Console.ReadLine();
             // Display patient information
             newPatient.DisplayInfo();
+            patients.Add(newPatient); // Add to the patients list
+            Console.WriteLine("Patient added successfully!");
         }
 
         // Method to add new doctor
-        static void AddNewDoctor()
+        static void AddNewDoctor(List<Doctor>doctors)
         {
             Doctor newDoctor = new Doctor();
-            Console.Write("Enter Doctor ID: ");
+            Console.WriteLine("Enter Doctor ID: ");
             newDoctor.Id = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter Doctor Name: ");
+            Console.WriteLine("Enter Doctor Name: ");
             newDoctor.Name = Console.ReadLine();
-            Console.Write("Enter Doctor Age: ");
+            Console.WriteLine("Enter Doctor Age: ");
             newDoctor.Age = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter Specialization: ");
-            newDoctor.Specialization = Console.ReadLine();
+            Console.WriteLine("select Specialization: ");
+            Console.WriteLine("1. Cardiology");
+            Console.WriteLine("2. Neurology");
+            Console.WriteLine("3. Orthopedics");
+           
+            char choice = Console.ReadKey().KeyChar;
+            switch (choice)
+            {
+                case '1':
+                    newDoctor.Specialization = "Cardiology";
+                    break;
+                case '2':
+                    newDoctor.Specialization = "Neurology";
+                    break;
+                case '3':
+                    newDoctor.Specialization = "Orthopedics";
+                    break;
+            }
+
             // Display doctor information
             newDoctor.DisplayInfo();
+            // add to the doctore list 
+            doctors.Add(newDoctor); // Corrected: Add to the 'doctors' list passed as parameter
+            Console.WriteLine("Doctor added successfully!");
+
+
+
         }
 
         // Booking an appointment (select doctor and patient from lists) 

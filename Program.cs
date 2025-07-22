@@ -67,7 +67,13 @@
                 get { return appointments; }
                 set { appointments = value; }
             }
-           
+
+            // override DisplayInfo method
+            public override void DisplayInfo()
+            {
+                Console.WriteLine($"Name: {Name}, Age: {Age}, Phone: {specialization}");
+            }
+
 
         }
 

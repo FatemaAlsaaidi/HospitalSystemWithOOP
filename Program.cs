@@ -75,6 +75,25 @@
 
         }
 
+        // Appointment class
+        public class Appointment
+        {
+            private int appointmentId;
+            private Doctor doctor;
+            private Patient patient;
+            private DateTime appointmentDate;
+
+            public int AppointmentId { get => appointmentId; set => appointmentId = value; }
+            public Doctor Doctor { get => doctor; set => doctor = value; }
+            public Patient Patient { get => patient; set => patient = value; }
+            public DateTime AppointmentDate { get => appointmentDate; set => appointmentDate = value; }
+
+            public void DisplayInfo()
+            {
+                Console.WriteLine($"Appointment ID: {AppointmentId}, Doctor: {Doctor.Name}, Patient: {Patient.Name}, Date: {AppointmentDate}");
+            }
+        }
+
 
         static void Main(string[] args)
         {

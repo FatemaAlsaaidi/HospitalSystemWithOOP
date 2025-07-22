@@ -21,6 +21,7 @@
             Console.WriteLine("3. Booking Appointment");
             Console.WriteLine("4. Displaying all appointments ");
             Console.WriteLine("5. Showing available doctors by specialization ");
+            Console.WriteLine("6. Displaying all appointments for specific patient name");
             Console.WriteLine("0. Exit");
 
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -58,6 +59,11 @@
                     Console.WriteLine("9. ENT (Ear, Nose, Throat)");
                     string specialization = Console.ReadLine();
                     ShowingAvailableDoctorsBySpecialization(specialization);
+                    break;
+                case 6:
+                    Console.WriteLine("Enter the patient name:");
+                    string patientNameOrDate = Console.ReadLine();
+                    DisplayingAllAppointmentsForPatient(patientNameOrDate);
                     break;
 
             }
@@ -176,6 +182,21 @@
             foreach (var appointment in appointments)
             {
                 if (appointment.Doctor.Id == doctorId)
+                {
+                    appointment.DisplayInfo();
+                }
+            }
+        }
+
+        // Displaying all appointments for specific dpatient name
+        static void DisplayingAllAppointmentsForPatient(string patientName)
+        {
+            // Assuming appointments is a list of Appointment objects
+            List<Appointment> appointments = new List<Appointment>(); // This should be populated with actual data
+            Console.WriteLine($"Appointments for Patient: {patientName}");
+            foreach (var appointment in appointments)
+            {
+                if (appointment.Patient.Name.Equals(patientName, StringComparison.OrdinalIgnoreCase))
                 {
                     appointment.DisplayInfo();
                 }

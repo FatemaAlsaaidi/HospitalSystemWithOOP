@@ -34,8 +34,14 @@
             }
 
         }
+        // Create Patient Class that inherits from Person
+        public class Patient : Person
+        {
+            // public feild
+            public string PhoneNumber { get; set; }
+            // override DisplayDetails method
+           
 
-        
         static void Main(string[] args)
         {
         }

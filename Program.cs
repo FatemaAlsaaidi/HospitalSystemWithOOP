@@ -52,8 +52,11 @@
             // private fields
             private string specialization;
 
+            // list of doctor info 
+            public List<Doctor> doctors = new List<Doctor>();
+
             // DateTime list Appointments
-            private List<DateTime> appointments = new List<DateTime>();
+            public List<Doctor> appointments = new List<Doctor>();
 
             // properties
             public string Specialization
@@ -61,12 +64,7 @@
                 get { return specialization; }
                 set { specialization = value; }
             }
-            // public properties
-            public List<DateTime> Appointments
-            {
-                get { return appointments; }
-                set { appointments = value; }
-            }
+           
 
             // override DisplayInfo method
             public override void DisplayInfo()

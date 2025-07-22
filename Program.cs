@@ -34,6 +34,18 @@
                     AddNewDoctor();
                     Console.ReadLine();
                     break;
+                case 3:
+                    BookAppointment(doctors, patients, appointments);
+                    Console.ReadLine();
+                    break;
+                case 4:
+
+                    Console.WriteLine("Enter the doctor ID:");
+                    int doctorId = Convert.ToInt32(Console.ReadLine());
+                    DisplayingAllAppointments(doctorId);
+                    Console.ReadLine();
+                    break;
+
             }
         }
 
@@ -100,6 +112,20 @@
             newAppointment.DisplayInfo();
         }
 
+        // Displaying all appointments for specific doctor 
+        static void DisplayingAllAppointments(int doctorId)
+        {
+            // Assuming appointments is a list of Appointment objects
+            List<Appointment> appointments = new List<Appointment>(); // This should be populated with actual data
+            Console.WriteLine($"Appointments for Doctor ID: {doctorId}");
+            foreach (var appointment in appointments)
+            {
+                if (appointment.Doctor.Id == doctorId)
+                {
+                    appointment.DisplayInfo();
+                }
+            }
+        }
 
 
     }

@@ -39,8 +39,15 @@
         {
             // public feild
             public string PhoneNumber { get; set; }
-            // override DisplayDetails method
-           
+            // override DisplayInfo method
+            public override void DisplayInfo()
+            {
+                Console.WriteLine($"Name: {Name}, Age: {Age}, Phone: {PhoneNumber}");
+            }
+        }
+
+       
+
 
         static void Main(string[] args)
         {

@@ -39,11 +39,25 @@
                     Console.ReadLine();
                     break;
                 case 4:
-
                     Console.WriteLine("Enter the doctor ID:");
                     int doctorId = Convert.ToInt32(Console.ReadLine());
                     DisplayingAllAppointments(doctorId);
                     Console.ReadLine();
+                    break;
+                case 5:
+                    // Print all specializations in the hospital 
+                    Console.WriteLine("Available Specializations:");
+                    Console.WriteLine("1. Cardiology");
+                    Console.WriteLine("2. Neurology");
+                    Console.WriteLine("3. Orthopedics");
+                    Console.WriteLine("4. Pediatrics");
+                    Console.WriteLine("5. Dermatology");
+                    Console.WriteLine("6. General Medicine");
+                    Console.WriteLine("7. Gynecology");
+                    Console.WriteLine("8. Psychiatry");
+                    Console.WriteLine("9. ENT (Ear, Nose, Throat)");
+                    string specialization = Console.ReadLine();
+                    ShowingAvailableDoctorsBySpecialization(specialization);
                     break;
 
             }
@@ -123,6 +137,21 @@
                 if (appointment.Doctor.Id == doctorId)
                 {
                     appointment.DisplayInfo();
+                }
+            }
+        }
+
+        // Showing available doctors by specialization
+        static void ShowingAvailableDoctorsBySpecialization(string specialization)
+        {
+            // Assuming doctors is a list of Doctor objects
+            List<Doctor> doctors = new List<Doctor>(); // This should be populated with actual data
+            Console.WriteLine($"Doctors with specialization in {specialization}:");
+            foreach (var doctor in doctors)
+            {
+                if (doctor.Specialization.Equals(specialization, StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"ID: {doctor.Id}, Name: {doctor.Name}, Age: {doctor.Age}");
                 }
             }
         }

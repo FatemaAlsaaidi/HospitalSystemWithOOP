@@ -46,7 +46,30 @@
             }
         }
 
-       
+        // Create Doctor Class that inherits from Person
+        public class Doctor : Person
+        {
+            // private fields
+            private string specialization;
+
+            // DateTime list Appointments
+            private List<DateTime> appointments = new List<DateTime>();
+
+            // properties
+            public string Specialization
+            {
+                get { return specialization; }
+                set { specialization = value; }
+            }
+            // public properties
+            public List<DateTime> Appointments
+            {
+                get { return appointments; }
+                set { appointments = value; }
+            }
+           
+
+        }
 
 
         static void Main(string[] args)

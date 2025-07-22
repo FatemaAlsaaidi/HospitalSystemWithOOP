@@ -69,6 +69,37 @@
             newDoctor.DisplayInfo();
         }
 
+        // Booking an appointment (select doctor and patient from lists) 
+        static void BookAppointment(List<Doctor> doctors, List<Patient> patients, List<Appointment> appointments)
+        {
+            if (doctors.Count == 0 || patients.Count == 0)
+            {
+                Console.WriteLine("No doctors or patients available for booking.");
+                return;
+            }
+            Console.WriteLine("Select a Doctor :");
+            for (int i = 0; i < doctors.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {doctors[i].Name} - {doctors[i].Specialization}");
+            }
+            int doctorIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            Console.WriteLine("Select a Patient:");
+            for (int i = 0; i < patients.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {patients[i].Name}");
+            }
+            int patientIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            Appointment newAppointment = new Appointment
+            {
+                AppointmentId = appointments.Count + 1,
+                Doctor = doctors[doctorIndex],
+                Patient = patients[patientIndex],
+                AppointmentDate = DateTime.Now // For simplicity, using current date
+            };
+            appointments.Add(newAppointment);
+            newAppointment.DisplayInfo();
+        }
+
 
 
     }

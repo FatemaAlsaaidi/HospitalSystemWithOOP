@@ -27,12 +27,15 @@
                 set { age = value; }
             }
 
-
-
-
-
+            // virtual method to display person details
+            public virtual void DisplayInfo()
+            {
+                //Console.WriteLine($"ID: {Id}, Name: {Name}, Age: {Age}");
+            }
 
         }
+
+        
         static void Main(string[] args)
         {
         }

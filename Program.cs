@@ -53,7 +53,24 @@
             newPatient.DisplayInfo();
         }
 
-       
+        // Method to add new doctor
+        static void AddNewDoctor()
+        {
+            Doctor newDoctor = new Doctor();
+            Console.Write("Enter Doctor ID: ");
+            newDoctor.Id = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter Doctor Name: ");
+            newDoctor.Name = Console.ReadLine();
+            Console.Write("Enter Doctor Age: ");
+            newDoctor.Age = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter Specialization: ");
+            newDoctor.Specialization = Console.ReadLine();
+            // Display doctor information
+            newDoctor.DisplayInfo();
+        }
+
+
+
     }
 
     // Create Person Class 

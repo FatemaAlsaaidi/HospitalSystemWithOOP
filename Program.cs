@@ -103,27 +103,68 @@
                 Console.WriteLine("No doctors or patients available for booking.");
                 return;
             }
-            Console.WriteLine("Select a Doctor :");
+            Console.WriteLine("Select a Doctor ID:");
             for (int i = 0; i < doctors.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {doctors[i].Name} - {doctors[i].Specialization}");
             }
             int doctorIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            Console.WriteLine("Select a Patient:");
+            Console.WriteLine("Select a ID Patient:");
             for (int i = 0; i < patients.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {patients[i].Name}");
             }
             int patientIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            Appointment newAppointment = new Appointment
+            // display when doctor can be available
+            Console.WriteLine($"--- Availability for Dr. {doctors[doctorIndex].Name} ({doctors[doctorIndex].Specialization}) ---");
+
+            // Get the appointments for the selected doctor
+            List<Appointment> doctorAppointments = appointments.Where(a => a.Doctor.Id == doctors[doctorIndex].Id).ToList();
+            // list of date 
+            List<DateTime> appointmentDates = new List<DateTime>();
+
+            if (doctorAppointments.Count == 0)
             {
-                AppointmentId = appointments.Count + 1,
-                Doctor = doctors[doctorIndex],
-                Patient = patients[patientIndex],
-                AppointmentDate = DateTime.Now // For simplicity, using current date
-            };
-            appointments.Add(newAppointment);
-            newAppointment.DisplayInfo();
+                Console.WriteLine($"Dr. {doctors[doctorIndex].Name} currently has no appointments booked. Likely fully available!");
+            }
+            else
+            {
+                Console.WriteLine("Booked appointments:");
+                foreach (var appt in doctorAppointments.OrderBy(a => a.AppointmentDate)) // Order by date for better readability
+                {
+                    Console.WriteLine($"- {appt.AppointmentDate:yyyy-MM-dd HH:mm}"); // Format the date nicely
+                    appointmentDates.Add(appt.AppointmentDate); // Add to the list of appointment dates
+                }
+                Console.WriteLine("Please choose an appointment date and time that doesn't conflict with the above.");
+            }
+
+            // Enter the date and time of appointment
+            Console.WriteLine("Enter Appointment Date and Time (YYYY-MM-DD HH:mm:ss):");
+            DateTime appointmentDate;
+            while (!DateTime.TryParse(Console.ReadLine(), out appointmentDate))
+            {
+                Console.WriteLine("Invalid date and time format. Please enter a valid date and time (YYYY-MM-DD HH:mm:ss):");
+            }
+            if (appointmentDates.Any(d => d == appointmentDate))
+            {
+                Console.WriteLine("This appointment time is already booked. Please choose a different time.");
+                return;
+            }
+            else
+            {
+                Appointment newAppointment = new Appointment
+                {
+                    AppointmentId = appointments.Count + 1,
+                    Doctor = doctors[doctorIndex],
+                    Patient = patients[patientIndex],
+                    AppointmentDate = appointmentDate
+                };
+                appointments.Add(newAppointment);
+                newAppointment.DisplayInfo();
+                Console.WriteLine("Appointment booked successfully!");
+            }
+
+                
         }
 
         // Displaying all appointments for specific doctor 

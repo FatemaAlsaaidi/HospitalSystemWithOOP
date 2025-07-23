@@ -27,9 +27,7 @@ namespace HospitalSystemWithOOP
             }
         }
         public static void LoadDoctorFromFile()
-        {
-            int DoctorID = 0;   
-           
+        {           
             // Check if the file exists before reading
             if (System.IO.File.Exists(DoctorFile))
             {
@@ -69,6 +67,36 @@ namespace HospitalSystemWithOOP
                 }
             }
 
+        }
+
+        public static void LoadPatientFromFile() 
+        {
+            // Check if the file exists before reading
+            if (System.IO.File.Exists(PatientFile))
+            {
+                string[] lines = System.IO.File.ReadAllLines(PatientFile);
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    if (parts.Length == 4)
+                    {
+
+                        // 1. Create a new patient object using the overloaded constructor
+                        Patient loadedPatient = new Patient
+                        {
+                            Id = int.Parse(parts[0]),
+                            Name = parts[1],
+                            Age = int.Parse(parts[2]),
+                            PhoneNumber = parts[3]
+
+                        };
+                        // 2. Add this new doctor object to the list
+                        Hospital.patients.Add(loadedPatient);
+                    }
+
+
+                }
+            }
         }
     }
 }

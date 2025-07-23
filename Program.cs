@@ -11,6 +11,9 @@ namespace HospitalSystemWithOOP
                 Files.LoadDoctorFromFile();
                 // Load Patient data from patient file 
                 Files.LoadPatientFromFile();
+
+                //Load Appointment data from Appoitnment file
+                Files.LoadAppointmentsFromFile();
                 // 1. Create an instance of the Hospital class
                 Hospital hospital = new Hospital();
 
@@ -572,6 +575,7 @@ namespace HospitalSystemWithOOP
                 AppointmentDate = appointmentDate
             };
             appointments.Add(newAppointment);
+            Files.SaveAppointmentToFile(appointments);
             newAppointment.DisplayInfo();
             Console.WriteLine("Appointment booked successfully!");
         }

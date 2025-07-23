@@ -194,18 +194,21 @@ namespace HospitalSystemWithOOP
             private List<Doctor> doctors = new List<Doctor>();
             private List<Appointment> appointments = new List<Appointment>();
 
-            // declare variables
-            int tries = 0; // Variable to track the number of tries for patient ID input
-            int Id; 
-            string Name;
-            int Age;
+            
 
 
 
         // Method to add new patient
         public void AddNewPatient() // Removed static and parameter
-            {
-                Patient newPatient = new Patient();
+        {
+            Patient newPatient = new Patient();
+
+            // declare variables
+            int tries = 0; // Variable to track the number of tries for patient ID input
+            int Id;
+            string Name;
+            int Age;
+            string PhoneNumber;
             try
             {
                 do
@@ -298,175 +301,311 @@ namespace HospitalSystemWithOOP
                 Console.WriteLine("Invalid input for Patient Age. Please enter a valid integer.");
                 return; // Exit the method if input is invalid
             }
-                Console.Write("Enter Phone Number: ");
-                newPatient.PhoneNumber = Console.ReadLine();
+            try
+            {
+                do
+                {
+                    Console.Write("Enter Phone Number: ");
+                    PhoneNumber = Console.ReadLine();
+                    if (PhoneNumber == null)
+                    {
+                        Console.WriteLine("Phone Number cannot be null. Please enter a valid string.");
+                    }
+                    else if (PhoneNumber.Length != 8)
+                    {
+                        Console.WriteLine("Phone Number must be 8 characters long. Please try again.");
+                        tries++; // Increment the number of tries
+                    }
+                    else
+                    {
+                        newPatient.PhoneNumber = PhoneNumber; // Assign valid phone number to the new patient
+                        tries = 0; // Reset tries for the next input
+
+
+                    }
+                } while (PhoneNumber == null || PhoneNumber.Length != 8 && tries < 3); // Ensure phone number is not null and has exactly 8 characters
+                if (tries >= 3)
+                {
+                    Console.WriteLine("Too many invalid attempts. Exiting patient addition.");
+                    return; // Exit the method if too many invalid attempts
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input for Phone Number. Please enter a valid string.");
+            }
            
                 newPatient.DisplayInfo();
                 patients.Add(newPatient);
                 Console.WriteLine("Patient added successfully!");
-            }
+        }
 
-            // Method to add new doctor
-            public void AddNewDoctor() 
+        // Method to add new doctor
+        public void AddNewDoctor() 
+        {
+            Doctor newDoctor = new Doctor();
+            // declare variables
+            int id = 0;
+            string name = string.Empty;
+            int age = 0;
+            string specialization = string.Empty; // Specialization variable
+
+            // Variable to track the number of tries for doctor ID input
+            int tries = 0; // Variable to track the number of tries for doctor ID input
+            do
             {
-                Doctor newDoctor = new Doctor();
-                Console.Write("Enter Doctor ID: ");
-                newDoctor.Id = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Enter Doctor Name: ");
-                newDoctor.Name = Console.ReadLine();
-                Console.Write("Enter Doctor Age: ");
-                newDoctor.Age = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Select Specialization: ");
-                Console.WriteLine("1. Cardiology");
-                Console.WriteLine("2. Neurology");
-                Console.WriteLine("3. Orthopedics");
-                Console.Write("Enter choice (1-3): ");
-
-                char choice = Console.ReadKey().KeyChar;
-                Console.WriteLine(); // To move to the next line after ReadKey
-                switch (choice)
+                try
                 {
-                    case '1':
-                        newDoctor.Specialization = "Cardiology";
-                        break;
-                    case '2':
-                        newDoctor.Specialization = "Neurology";
-                        break;
-                    case '3':
-                        newDoctor.Specialization = "Orthopedics";
-                        break;
-                    default:
-                        Console.WriteLine("Invalid specialization choice, defaulting to General.");
-                        newDoctor.Specialization = "General";
-                        break;
+                    Console.Write("Enter Doctor ID: ");
+                    id = Convert.ToInt32(Console.ReadLine());
+                    if (id <= 0)
+                    {
+                        Console.WriteLine("Doctor ID must be a positive integer. Please try again.");
+                        tries++; // Increment the number of tries
+                    }
+                    else
+                    {
+                        newDoctor.Id = id; // Assign valid ID to the new doctor
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input for Doctor ID. Please enter a valid integer.");
+                    tries++; // Increment the number of tries
+                }
+            } while (id <= 0 && tries < 3); // Ensure ID is positive
+            if (tries >= 3)
+            {
+                Console.WriteLine("Too many invalid attempts. Exiting doctor addition.");
+                return; // Exit the method if too many invalid attempts
+            }
+            // Loop until a valid name is entered
+            tries = 0; // Reset tries for the next input
+            do
+            {
+                Console.Write("Enter Doctor Name: ");
+                name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(name)) // Check for empty or whitespace input
+                {
+                    Console.WriteLine("Doctor Name cannot be empty or whitespace.");
+                    tries++; // Increment the number of tries
+                }
+                else
+                {
+                    newDoctor.Name = name; // Assign valid name to the new doctor
+                }
+            } while (string.IsNullOrWhiteSpace(name) && tries < 3); // Ensure name is not empty or whitespace
+            if (tries >= 3)
+            {
+                Console.WriteLine("Too many invalid attempts. Exiting doctor addition.");
+                return; // Exit the method if too many invalid attempts
+            }
+            tries = 0;
+            // Loop until a valid age is entered
+            do
+            {
+                try
+                {
+                    Console.Write("Enter Doctor Age: ");
+                    age = Convert.ToInt32(Console.ReadLine());
+                    if (age <= 0)
+                    {
+                        Console.WriteLine("Doctor Age must be a positive integer. Please try again.");
+                        tries++; // Increment the number of tries
+                    }
+                    else
+                    {
+                        newDoctor.Age = age; // Assign valid age to the new doctor
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input for Doctor Age. Please enter a valid integer.");
+                    tries++; // Increment the number of tries
+                }
+            } while (age <= 0 && tries < 3); // Ensure age is positive
+            if (tries >= 3)
+            {
+                Console.WriteLine("Too many invalid attempts. Exiting doctor addition.");
+                return; // Exit the method if too many invalid attempts
+            }
+            do
+            {
+                try
+                {
+                    Console.WriteLine("Select Specialization: ");
+                    Console.WriteLine("1. Cardiology");
+                    Console.WriteLine("2. Neurology");
+                    Console.WriteLine("3. Orthopedics");
+                    Console.Write("Enter choice (1-3): ");
+
+                    char choice = Console.ReadKey().KeyChar;
+                    if (choice < '1' || choice > '3')
+                    {
+                        Console.WriteLine("\nInvalid choice. Please select a valid specialization.");
+                        tries++; // Increment the number of tries
+                        continue; // Skip to the next iteration of the loop
+                    }
+                    else
+                    {
+                        switch (choice)
+                        {
+                            case '1':
+                                newDoctor.Specialization = "Cardiology";
+                                break;
+                            case '2':
+                                newDoctor.Specialization = "Neurology";
+                                break;
+                            case '3':
+                                newDoctor.Specialization = "Orthopedics";
+                                break;
+                            default:
+                                Console.WriteLine("Invalid specialization choice, defaulting to General.");
+                                newDoctor.Specialization = "General";
+                                break;
+                        }
+                    }
+ 
                 }
 
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input for Doctor Specialization. Please enter a valid string.");
+                    tries++; // Increment the number of tries
+                }
+          
                 newDoctor.DisplayInfo();
                 doctors.Add(newDoctor);
                 Console.WriteLine("Doctor added successfully!");
-            }
+            } while (string.IsNullOrWhiteSpace(newDoctor.Specialization) && tries < 3); // Ensure specialization is not empty or whitespace
+                if (tries >= 3)
+                {
+                    Console.WriteLine("Too many invalid attempts. Exiting doctor addition.");
+                    return; // Exit the method if too many invalid attempts
+                }
+        }
 
-            // Booking an appointment (select doctor and patient from lists)
-            public void BookAppointment() 
+        // Booking an appointment (select doctor and patient from lists)
+        public void BookAppointment() 
+        {
+            if (doctors.Count == 0 || patients.Count == 0)
             {
-                if (doctors.Count == 0 || patients.Count == 0)
-                {
-                    Console.WriteLine("No doctors or patients available for booking. Please add them first.");
-                    return;
-                }
-
-                Console.WriteLine("\n--- Available Doctors ---");
-                for (int i = 0; i < doctors.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {doctors[i].Name} (ID: {doctors[i].Id}) - {doctors[i].Specialization}");
-                }
-                Console.Write("Select a Doctor by number: ");
-                int doctorIndex;
-                while (!int.TryParse(Console.ReadLine(), out doctorIndex) || doctorIndex < 1 || doctorIndex > doctors.Count)
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid doctor number.");
-                    Console.Write("Select a Doctor by number: ");
-                }
-                Doctor selectedDoctor = doctors[doctorIndex - 1];
-
-                Console.WriteLine("\n--- Available Patients ---");
-                for (int i = 0; i < patients.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {patients[i].Name} (ID: {patients[i].Id})");
-                }
-                Console.Write("Select a Patient by number: ");
-                int patientIndex;
-                while (!int.TryParse(Console.ReadLine(), out patientIndex) || patientIndex < 1 || patientIndex > patients.Count)
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid patient number.");
-                    Console.Write("Select a Patient by number: ");
-                }
-                Patient selectedPatient = patients[patientIndex - 1];
-
-                Console.WriteLine($"\n--- Availability for Dr. {selectedDoctor.Name} ({selectedDoctor.Specialization}) ---");
-
-                List<Appointment> doctorAppointments = appointments.Where(a => a.Doctor.Id == selectedDoctor.Id).ToList();
-            if (doctorAppointments.Count == 0)
-            {
-                Console.WriteLine($"Dr. {selectedDoctor.Name} currently has no appointments booked. Likely fully available!");
-            }
-            else
-            {
-                Console.WriteLine($"Booked appointments Date and Time for Dr. {selectedDoctor.Name}:");
-                foreach (var appt in doctorAppointments.OrderBy(a => a.AppointmentDate)) // Order by date for better readability
-                {
-                    Console.WriteLine($"- {appt.AppointmentDate:yyyy-MM-dd HH:mm}"); // Format the date nicely
-                }
-                Console.WriteLine("Please choose an appointment date and time that doesn't conflict with the above.");
-            }
-
-            // Enter the date and time of appointment
-            Console.Write("Enter Appointment Date and Time (YYYY-MM-DD HH:mm): ");
-            DateTime appointmentDate;
-            while (!DateTime.TryParse(Console.ReadLine(), out appointmentDate))
-            {
-                Console.WriteLine("Invalid date and time format. Please enter a valid date and time (YYYY-MM-DD HH:mm):");
-                Console.Write("Enter Appointment Date and Time (YYYY-MM-DD HH:mm): ");
-            }
-
-            // Corrected conflict check: Check if any existing doctor appointment has the same date
-            if (doctorAppointments.Any(appt => appt.AppointmentDate == appointmentDate))
-            {
-                Console.WriteLine("This appointment time is already booked for this doctor. Please choose a different time.");
+                Console.WriteLine("No doctors or patients available for booking. Please add them first.");
                 return;
             }
+
+            Console.WriteLine("\n--- Available Doctors ---");
+            for (int i = 0; i < doctors.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {doctors[i].Name} (ID: {doctors[i].Id}) - {doctors[i].Specialization}");
+            }
+            Console.Write("Select a Doctor by number: ");
+            int doctorIndex;
+            while (!int.TryParse(Console.ReadLine(), out doctorIndex) || doctorIndex < 1 || doctorIndex > doctors.Count)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid doctor number.");
+                Console.Write("Select a Doctor by number: ");
+            }
+            Doctor selectedDoctor = doctors[doctorIndex - 1];
+
+            Console.WriteLine("\n--- Available Patients ---");
+            for (int i = 0; i < patients.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {patients[i].Name} (ID: {patients[i].Id})");
+            }
+            Console.Write("Select a Patient by number: ");
+            int patientIndex;
+            while (!int.TryParse(Console.ReadLine(), out patientIndex) || patientIndex < 1 || patientIndex > patients.Count)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid patient number.");
+                Console.Write("Select a Patient by number: ");
+            }
+            Patient selectedPatient = patients[patientIndex - 1];
+
+            Console.WriteLine($"\n--- Availability for Dr. {selectedDoctor.Name} ({selectedDoctor.Specialization}) ---");
+
+            List<Appointment> doctorAppointments = appointments.Where(a => a.Doctor.Id == selectedDoctor.Id).ToList();
+        if (doctorAppointments.Count == 0)
+        {
+            Console.WriteLine($"Dr. {selectedDoctor.Name} currently has no appointments booked. Likely fully available!");
+        }
+        else
+        {
+            Console.WriteLine($"Booked appointments Date and Time for Dr. {selectedDoctor.Name}:");
+            foreach (var appt in doctorAppointments.OrderBy(a => a.AppointmentDate)) // Order by date for better readability
+            {
+                Console.WriteLine($"- {appt.AppointmentDate:yyyy-MM-dd HH:mm}"); // Format the date nicely
+            }
+            Console.WriteLine("Please choose an appointment date and time that doesn't conflict with the above.");
+        }
+
+        // Enter the date and time of appointment
+        Console.Write("Enter Appointment Date and Time (YYYY-MM-DD HH:mm): ");
+        DateTime appointmentDate;
+        while (!DateTime.TryParse(Console.ReadLine(), out appointmentDate))
+        {
+            Console.WriteLine("Invalid date and time format. Please enter a valid date and time (YYYY-MM-DD HH:mm):");
+            Console.Write("Enter Appointment Date and Time (YYYY-MM-DD HH:mm): ");
+        }
+
+        // Corrected conflict check: Check if any existing doctor appointment has the same date
+        if (doctorAppointments.Any(appt => appt.AppointmentDate == appointmentDate))
+        {
+            Console.WriteLine("This appointment time is already booked for this doctor. Please choose a different time.");
+            return;
+        }
+        else
+        {
+            Appointment newAppointment = new Appointment
+            {
+                AppointmentId = appointments.Count > 0 ? appointments.Max(a => a.AppointmentId) + 1 : 1, // Ensure unique ID
+                Doctor = selectedDoctor,
+                Patient = selectedPatient,
+                AppointmentDate = appointmentDate
+            };
+            appointments.Add(newAppointment);
+            newAppointment.DisplayInfo();
+            Console.WriteLine("Appointment booked successfully!");
+        }
+    }
+
+        // Displaying all appointments for specific doctor
+        public void DisplayingAllAppointments(int doctorId) 
+        {
+            Console.WriteLine($"\n--- Appointments for Doctor ID: {doctorId} ---");
+            var doctorAppointments = appointments.Where(a => a.Doctor.Id == doctorId).ToList();
+
+            if (doctorAppointments.Any())
+            {
+                foreach (var appointment in doctorAppointments.OrderBy(a => a.AppointmentDate))
+                {
+                    appointment.DisplayInfo();
+                }
+            }
             else
             {
-                Appointment newAppointment = new Appointment
-                {
-                    AppointmentId = appointments.Count > 0 ? appointments.Max(a => a.AppointmentId) + 1 : 1, // Ensure unique ID
-                    Doctor = selectedDoctor,
-                    Patient = selectedPatient,
-                    AppointmentDate = appointmentDate
-                };
-                appointments.Add(newAppointment);
-                newAppointment.DisplayInfo();
-                Console.WriteLine("Appointment booked successfully!");
+                Console.WriteLine($"No appointments found for Doctor ID: {doctorId}");
             }
         }
 
-            // Displaying all appointments for specific doctor
-            public void DisplayingAllAppointments(int doctorId) 
-            {
-                Console.WriteLine($"\n--- Appointments for Doctor ID: {doctorId} ---");
-                var doctorAppointments = appointments.Where(a => a.Doctor.Id == doctorId).ToList();
+        // Displaying all appointments for specific patient name
+        public void DisplayingAllAppointmentsForPatient(string patientName) 
+        {
+            Console.WriteLine($"\n--- Appointments for Patient: {patientName} ---");
+            var patientAppointments = appointments.Where(a => a.Patient.Name.Equals(patientName, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                if (doctorAppointments.Any())
+            if (patientAppointments.Any())
+            {
+                foreach (var appointment in patientAppointments.OrderBy(a => a.AppointmentDate))
                 {
-                    foreach (var appointment in doctorAppointments.OrderBy(a => a.AppointmentDate))
-                    {
-                        appointment.DisplayInfo();
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"No appointments found for Doctor ID: {doctorId}");
+                    appointment.DisplayInfo();
                 }
             }
-
-            // Displaying all appointments for specific patient name
-            public void DisplayingAllAppointmentsForPatient(string patientName) 
+            else
             {
-                Console.WriteLine($"\n--- Appointments for Patient: {patientName} ---");
-                var patientAppointments = appointments.Where(a => a.Patient.Name.Equals(patientName, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                if (patientAppointments.Any())
-                {
-                    foreach (var appointment in patientAppointments.OrderBy(a => a.AppointmentDate))
-                    {
-                        appointment.DisplayInfo();
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"No appointments found for patient: {patientName}");
-                }
+                Console.WriteLine($"No appointments found for patient: {patientName}");
             }
+        }
 
         // Showing available doctors by specialization
         public void ShowingAvailableDoctorsBySpecialization(string specialization) 

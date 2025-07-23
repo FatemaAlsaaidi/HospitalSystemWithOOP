@@ -194,25 +194,120 @@ namespace HospitalSystemWithOOP
             private List<Doctor> doctors = new List<Doctor>();
             private List<Appointment> appointments = new List<Appointment>();
 
-            // Method to add new patient
-            public void AddNewPatient() // Removed static and parameter
+            // declare variables
+            int tries = 0; // Variable to track the number of tries for patient ID input
+            int Id; 
+            string Name;
+            int Age;
+
+
+
+        // Method to add new patient
+        public void AddNewPatient() // Removed static and parameter
             {
                 Patient newPatient = new Patient();
-                Console.Write("Enter Patient ID: ");
-                newPatient.Id = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Enter Patient Name: ");
-                newPatient.Name = Console.ReadLine();
-                Console.Write("Enter Patient Age: ");
-                newPatient.Age = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                do
+                {
+                    Console.Write("Enter Patient ID: ");
+                    Id = Convert.ToInt32(Console.ReadLine());
+                    if(Id <= 0 )
+                    {
+                        Console.WriteLine("Patient ID must be a positive integer. Please try again.");
+                        tries++; // Increment the number of tries
+
+                    }
+                    
+                    else
+                    {
+                        newPatient.Id = Id; // Assign valid ID to the new patient
+                        tries = 0; // Reset tries for the next input
+                    }
+                } while (Id <= 0 && tries < 3); // Ensure ID is positive
+                if (tries >= 3)
+                {
+                    Console.WriteLine("Too many invalid attempts. Exiting patient addition.");
+                    return; // Exit the method if too many invalid attempts
+                }
+                
+
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input for Patient ID. Please enter a valid integer.");
+                return; // Exit the method if input is invalid
+            }
+            try
+            {
+                // Loop until a valid name is entered
+                do
+                {
+                    Console.Write("Enter Patient Name: ");
+                    Name = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(Name)) // Check for empty or whitespace input
+                    {
+                        Console.WriteLine("Patient Name cannot be empty or whitespace.");
+                        tries++; // Increment the number of trie
+                    }
+                    else
+                    {
+
+
+                        newPatient.Name = Name; // Assign valid name to the new patient
+                        tries = 0; // Reset tries if input is valid
+
+                    }
+                } while (string.IsNullOrWhiteSpace(Name) && tries < 3); // Ensure name is not empty or whitespace
+                if (tries >= 3)
+                {
+                    Console.WriteLine("Too many invalid attempts. Exiting patient addition.");
+                    return; // Exit the method if too many invalid attempts
+                }
+            }
+
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input for Patient Name. Please enter a valid string.");
+            }
+            try
+            {
+                do
+                {
+                    Console.Write("Enter Patient Age: ");
+                    Age = Convert.ToInt32(Console.ReadLine());
+                    if (Age <= 0)
+                    {
+                        Console.WriteLine("Patient Age must be a positive integer. Please try again.");
+                        tries++; // Increment the number of tries
+                    }
+                    else
+                    {
+                        newPatient.Age = Age; // Assign valid age to the new patient
+                        tries = 0; // Reset tries for the next input
+                    }
+                } while (Age <= 0 && tries < 3); // Ensure age is positive
+                if (tries >= 3)
+                {
+                    Console.WriteLine("Too many invalid attempts. Exiting patient addition.");
+                    return; // Exit the method if too many invalid attempts
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input for Patient Age. Please enter a valid integer.");
+                return; // Exit the method if input is invalid
+            }
                 Console.Write("Enter Phone Number: ");
                 newPatient.PhoneNumber = Console.ReadLine();
+           
                 newPatient.DisplayInfo();
                 patients.Add(newPatient);
                 Console.WriteLine("Patient added successfully!");
             }
 
             // Method to add new doctor
-            public void AddNewDoctor() // Removed static and parameter
+            public void AddNewDoctor() 
             {
                 Doctor newDoctor = new Doctor();
                 Console.Write("Enter Doctor ID: ");
@@ -252,7 +347,7 @@ namespace HospitalSystemWithOOP
             }
 
             // Booking an appointment (select doctor and patient from lists)
-            public void BookAppointment() // Removed static and parameters
+            public void BookAppointment() 
             {
                 if (doctors.Count == 0 || patients.Count == 0)
                 {
@@ -336,7 +431,7 @@ namespace HospitalSystemWithOOP
         }
 
             // Displaying all appointments for specific doctor
-            public void DisplayingAllAppointments(int doctorId) // Removed static and parameter
+            public void DisplayingAllAppointments(int doctorId) 
             {
                 Console.WriteLine($"\n--- Appointments for Doctor ID: {doctorId} ---");
                 var doctorAppointments = appointments.Where(a => a.Doctor.Id == doctorId).ToList();
@@ -355,7 +450,7 @@ namespace HospitalSystemWithOOP
             }
 
             // Displaying all appointments for specific patient name
-            public void DisplayingAllAppointmentsForPatient(string patientName) // Removed static and parameter
+            public void DisplayingAllAppointmentsForPatient(string patientName) 
             {
                 Console.WriteLine($"\n--- Appointments for Patient: {patientName} ---");
                 var patientAppointments = appointments.Where(a => a.Patient.Name.Equals(patientName, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -374,7 +469,7 @@ namespace HospitalSystemWithOOP
             }
 
         // Showing available doctors by specialization
-        public void ShowingAvailableDoctorsBySpecialization(string specialization) // Removed static and parameter
+        public void ShowingAvailableDoctorsBySpecialization(string specialization) 
         {
             bool found = true;
             Console.WriteLine($"\n--- Doctors with specialization in {specialization}: ---");

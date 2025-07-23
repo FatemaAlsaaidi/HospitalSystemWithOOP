@@ -98,5 +98,48 @@ namespace HospitalSystemWithOOP
                 }
             }
         }
+
+
+
+        public static void SaveAppointmentToFile(List<Appointment> appointments, string appointmentFile)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(appointmentFile))
+            {
+                foreach (Appointment appointment in appointments)
+                {
+                    // Save AppointmentId, DoctorId, PatientId, AppointmentDate
+                    file.WriteLine($"{appointment.AppointmentId},{appointment.DoctorName},{appointment.PatientName},{appointment.AppointmentDate}");
+                }
+            }
+        }
+
+
+        public static void LoadAppointmentsFromFile(Hospital hospital, string appointmentFile)
+        {
+            if (System.IO.File.Exists(appointmentFile))
+            {
+                string[] lines = System.IO.File.ReadAllLines(appointmentFile);
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    if (parts.Length == 4)
+                    {
+                        // 1. Create a new appoitment object using the overloaded constructor
+                        Appointment loadedAppointment = new Appointment
+                        {
+                            AppointmentId = int.Parse(parts[0]),
+                            DoctorName = parts[1],
+                            PatientName = parts[2],
+                            AppointmentDate = DateTime.Parse(parts[3])
+                        };
+                        // 2. Add this new Appoitment object to the list
+                        Hospital.appointments.Add(loadedAppointment);
+
+                    }
+                }
+            }
+        }
+
+
     }
 }

@@ -20,6 +20,7 @@ namespace HospitalSystemWithOOP
                 bool MainMenu = true;
                 while (MainMenu)
                 {
+                    Console.Clear();
                     Console.WriteLine("Welcome to the Hospital System");
                     Console.WriteLine("Please select an option (1-0): ");
                     Console.WriteLine("1. Add Patient");
@@ -29,7 +30,7 @@ namespace HospitalSystemWithOOP
                     Console.WriteLine("5. Showing available doctors by specialization");
                     Console.WriteLine("6. Displaying all appointments for a specific patient name");
                     Console.WriteLine("0. Exit");
-
+                    
                     int choice = Convert.ToInt32(Console.ReadLine());
                     switch (choice)
                     {

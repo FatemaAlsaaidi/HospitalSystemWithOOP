@@ -114,11 +114,11 @@ namespace HospitalSystemWithOOP
         }
 
 
-        public static void LoadAppointmentsFromFile(Hospital hospital, string appointmentFile)
+        public static void LoadAppointmentsFromFile()
         {
-            if (System.IO.File.Exists(appointmentFile))
+            if (System.IO.File.Exists(AppointmentFile))
             {
-                string[] lines = System.IO.File.ReadAllLines(appointmentFile);
+                string[] lines = System.IO.File.ReadAllLines(AppointmentFile);
                 foreach (string line in lines)
                 {
                     string[] parts = line.Split(',');

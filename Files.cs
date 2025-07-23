@@ -16,7 +16,6 @@ namespace HospitalSystemWithOOP
         // file to save appointment data
         public static string AppointmentFile = "appointments.txt";
 
-        // save data of doctore in doctor file 
         public static void SaveDoctorToFile(List<Doctor> doctors)
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(DoctorFile))
@@ -27,8 +26,6 @@ namespace HospitalSystemWithOOP
                 }
             }
         }
-
-        // Load data of doctor from file 
         public static void LoadDoctorFromFile()
         {
             int DoctorID = 0;   
@@ -59,6 +56,19 @@ namespace HospitalSystemWithOOP
    
                 }
             }
+        }
+
+
+        public static void SavePatientToFile(List<Patient> patients) 
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(PatientFile))
+            {
+                foreach (Patient patient in patients)
+                {
+                    file.WriteLine($"{patient.Id}, {patient.Name}, {patient.Age}, {patient.PhoneNumber}");
+                }
+            }
+
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-
+using System.Collections.Generic;
 namespace HospitalSystemWithOOP
 {
         internal class Program
@@ -176,18 +176,18 @@ namespace HospitalSystemWithOOP
         public class Appointment
         {
             private int appointmentId;
-            private Doctor doctor;
-            private Patient patient;
+            private string doctorName;
+            private string patientName;
             private DateTime appointmentDate;
 
             public int AppointmentId { get => appointmentId; set => appointmentId = value; }
-            public Doctor Doctor { get => doctor; set => doctor = value; }
-            public Patient Patient { get => patient; set => patient = value; }
+            public string DoctorName { get => doctorName; set => doctorName = value; }
+            public string PatientName { get => patientName; set => patientName = value;}
             public DateTime AppointmentDate { get => appointmentDate; set => appointmentDate = value; }
 
             public void DisplayInfo()
             {
-                Console.WriteLine($"Appointment ID: {AppointmentId}, Doctor: {Doctor.Name}, Patient: {Patient.Name}, Date: {AppointmentDate:yyyy-MM-dd HH:mm}"); // Formatted date
+                Console.WriteLine($"Appointment ID: {AppointmentId}, Doctor: {DoctorName}, Patient: {PatientName}, Date: {AppointmentDate:yyyy-MM-dd HH:mm}"); // Formatted date
             }
         }
 
@@ -514,7 +514,7 @@ namespace HospitalSystemWithOOP
                 Console.WriteLine("Invalid input. Please enter a valid doctor number.");
                 Console.Write("Select a Doctor by number: ");
             }
-            Doctor selectedDoctor = doctors[doctorIndex - 1];
+            string selectedDoctor = doctors[doctorIndex - 1].Name;
 
             Console.WriteLine("\n--- Available Patients ---");
             for (int i = 0; i < patients.Count; i++)
@@ -528,18 +528,18 @@ namespace HospitalSystemWithOOP
                 Console.WriteLine("Invalid input. Please enter a valid patient number.");
                 Console.Write("Select a Patient by number: ");
             }
-            Patient selectedPatient = patients[patientIndex - 1];
+            string selectedPatient = patients[patientIndex - 1].Name;
 
-            Console.WriteLine($"\n--- Availability for Dr. {selectedDoctor.Name} ({selectedDoctor.Specialization}) ---");
+            Console.WriteLine($"\n--- Availability for Dr. {selectedDoctor} ({doctors[doctorIndex - 1].Specialization}) ---");
 
-            List<Appointment> doctorAppointments = appointments.Where(a => a.Doctor.Id == selectedDoctor.Id).ToList();
+            List<Appointment> doctorAppointments = appointments.Where(a => a.DoctorName== selectedDoctor).ToList();
         if (doctorAppointments.Count == 0)
         {
-            Console.WriteLine($"Dr. {selectedDoctor.Name} currently has no appointments booked. Likely fully available!");
+            Console.WriteLine($"Dr. {selectedDoctor} currently has no appointments booked. Likely fully available!");
         }
         else
         {
-            Console.WriteLine($"Booked appointments Date and Time for Dr. {selectedDoctor.Name}:");
+            Console.WriteLine($"Booked appointments Date and Time for Dr. {selectedDoctor}:");
             foreach (var appt in doctorAppointments.OrderBy(a => a.AppointmentDate)) // Order by date for better readability
             {
                 Console.WriteLine($"- {appt.AppointmentDate:yyyy-MM-dd HH:mm}"); // Format the date nicely
@@ -567,8 +567,8 @@ namespace HospitalSystemWithOOP
             Appointment newAppointment = new Appointment
             {
                 AppointmentId = appointments.Count > 0 ? appointments.Max(a => a.AppointmentId) + 1 : 1, // Ensure unique ID
-                Doctor = selectedDoctor,
-                Patient = selectedPatient,
+                DoctorName = selectedDoctor,
+                PatientName = selectedPatient,
                 AppointmentDate = appointmentDate
             };
             appointments.Add(newAppointment);
@@ -580,8 +580,17 @@ namespace HospitalSystemWithOOP
         // Displaying all appointments for specific doctor
         public void DisplayingAllAppointments(int doctorId) 
         {
+            int index = 0;
             Console.WriteLine($"\n--- Appointments for Doctor ID: {doctorId} ---");
-            var doctorAppointments = appointments.Where(a => a.Doctor.Id == doctorId).ToList();
+            for (int i = 0; i < doctors.Count; i++)
+            {
+                if (doctors[i].Id == doctorId)
+                {
+                    index = i;
+                }
+            }
+                
+            var doctorAppointments = appointments.Where(a => a.DoctorName == doctors[index].Name).ToList();
 
             if (doctorAppointments.Any())
             {
@@ -600,7 +609,7 @@ namespace HospitalSystemWithOOP
         public void DisplayingAllAppointmentsForPatient(string patientName) 
         {
             Console.WriteLine($"\n--- Appointments for Patient: {patientName} ---");
-            var patientAppointments = appointments.Where(a => a.Patient.Name.Equals(patientName, StringComparison.OrdinalIgnoreCase)).ToList();
+            var patientAppointments = appointments.Where(a => a.PatientName.Equals(patientName, StringComparison.OrdinalIgnoreCase)).ToList();
 
             if (patientAppointments.Any())
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HospitalSystemWithOOP
 {
@@ -22,7 +23,40 @@ namespace HospitalSystemWithOOP
             {
                 foreach (Doctor doctor in doctors)
                 {
-                    file.WriteLine($"{doctor.Id}, {doctor.Name}, {doctor.Specialization}");
+                    file.WriteLine($"{doctor.Id}, {doctor.Name}, {doctor.Age}, {doctor.Specialization}");
+                }
+            }
+        }
+
+        // Load data of doctor from file 
+        public static void LoadDoctorFromFile()
+        {
+            int DoctorID = 0;   
+           
+            // Check if the file exists before reading
+            if (System.IO.File.Exists(DoctorFile))
+            {
+                string[] lines = System.IO.File.ReadAllLines(DoctorFile);
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    if (parts.Length == 4)
+                    {
+
+                        // 1. Create a new doctor object using the overloaded constructor
+                        Doctor loadedDoctor = new Doctor
+                        {
+                            Id = int.Parse(parts[0]),
+                            Name = parts[1],
+                            Age = int.Parse(parts[2]),
+                            Specialization = parts[3]
+
+                        };
+                        // 2. Add this new doctor object to the list
+                        Hospital.doctors.Add(loadedDoctor);
+                    }
+
+   
                 }
             }
         }

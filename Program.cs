@@ -9,6 +9,8 @@ namespace HospitalSystemWithOOP
 
                 // load doctor data from doctor file 
                 Files.LoadDoctorFromFile();
+                // Load Patient data from patient file 
+                Files.LoadPatientFromFile();
                 // 1. Create an instance of the Hospital class
                 Hospital hospital = new Hospital();
 
@@ -340,6 +342,7 @@ namespace HospitalSystemWithOOP
            
                 newPatient.DisplayInfo();
                 patients.Add(newPatient);
+                Files.SavePatientToFile(patients);
                 Console.WriteLine("Patient added successfully!");
         }
 

@@ -101,9 +101,9 @@ namespace HospitalSystemWithOOP
 
 
 
-        public static void SaveAppointmentToFile(List<Appointment> appointments, string appointmentFile)
+        public static void SaveAppointmentToFile(List<Appointment> appointments)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(appointmentFile))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(AppointmentFile))
             {
                 foreach (Appointment appointment in appointments)
                 {

@@ -6,6 +6,9 @@ namespace HospitalSystemWithOOP
         {
             static void Main(string[] args)
             {
+
+                // load doctor data from doctor file 
+                Files.LoadDoctorFromFile();
                 // 1. Create an instance of the Hospital class
                 Hospital hospital = new Hospital();
 
@@ -190,9 +193,9 @@ namespace HospitalSystemWithOOP
         public class Hospital
         {
             // Make lists instance members (non-static)
-            private List<Patient> patients = new List<Patient>();
-            private List<Doctor> doctors = new List<Doctor>();
-            private List<Appointment> appointments = new List<Appointment>();
+            public static List<Patient> patients = new List<Patient>();
+            public static List<Doctor> doctors = new List<Doctor>();
+            public static List<Appointment> appointments = new List<Appointment>();
 
             
 
@@ -343,7 +346,7 @@ namespace HospitalSystemWithOOP
         // Method to add new doctor
         public void AddNewDoctor() 
         {
-            Doctor newDoctor = new Doctor();
+            Doctor newDoctor = new Doctor(); 
             // declare variables
             int id = 0;
             string name = string.Empty;
@@ -473,10 +476,12 @@ namespace HospitalSystemWithOOP
                     Console.WriteLine("Invalid input for Doctor Specialization. Please enter a valid string.");
                     tries++; // Increment the number of tries
                 }
-          
+                
                 newDoctor.DisplayInfo();
                 doctors.Add(newDoctor);
+                Files.SaveDoctorToFile(doctors);
                 Console.WriteLine("Doctor added successfully!");
+
             } while (string.IsNullOrWhiteSpace(newDoctor.Specialization) && tries < 3); // Ensure specialization is not empty or whitespace
                 if (tries >= 3)
                 {
